@@ -30,7 +30,7 @@
     <section class="form-section">
       <h2>Ingreso de la Semana</h2>
       <label for="semana">Semana: </label>
-      <input type="text" id="semana" placeholder="Ej: 21 al 27">
+      <input type="text" id="semana" readonly>
       <form id="ingresoForm">
         <div id="diasContainer"></div>
         <button type="button" onclick="agregarCampos()">Agregar ingresos diarios</button><br>
@@ -81,6 +81,8 @@
       <div class="resultado" id="resultado-descuento"></div>
     </section>
     <section class="descuento">
+      <section class="descuento"><h2>División Rápida</h2><input type="number" id="valor-dividir" placeholder="Número a dividir"><input type="number" id="divisor" placeholder="Divisor"><button onclick="dividirValor()">Dividir</button><div class="resultado" id="resultado-division"></div></section>
+
       <h2>Calculadora Porcientos</h2>
       <input type="number" id="porcentaje-input" placeholder="Ingrese un valor">
       <button onclick="calcularPorcentaje(4)">Calcular 4%</button>
@@ -104,11 +106,47 @@
     
     <section id="tabla-clave" class="table-container">
       <h2>Tabla de Claves Interactiva</h2>
-      <p>D=1, E=2, P=3, O=4, R=5, T=6, I=7, V=8, A=9, S=0</p>
-      <input type="text" id="claveInput" placeholder="Introduce las letras (ej. DTS)">
-      <button onclick="convertirClave()">Convertir</button>
-      <div class="resultado" id="resultado-clave"></div>
+      <p style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Conversión de letras a números</p>
+    
+      <table style="margin: 0 auto; max-width: 600px; background: #fff; border-radius: 8px; overflow: hidden;">
+        <thead style="background-color: #007BFF; color: white;">
+          <tr>
+            <th>D</th>
+            <th>E</th>
+            <th>P</th>
+            <th>O</th>
+            <th>R</th>
+            <th>T</th>
+            <th>I</th>
+            <th>V</th>
+            <th>A</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <div style="margin-top: 20px;">
+        <input type="text" id="claveInput" placeholder="Introduce las letras (Ej: DTS)">
+        <button onclick="convertirClave()">Convertir</button>
+        <div class="resultado" id="resultado-clave"></div>
+      </div>
     </section>
+    
+    
   </main>
 
   <footer>
@@ -116,6 +154,31 @@
   </footer>
 
   <script>
+function obtenerRangoSemana() {
+  const hoy = new Date();
+  const diaSemana = hoy.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+  const lunes = new Date(hoy);
+  const domingo = new Date(hoy);
+
+  const ajusteLunes = diaSemana === 0 ? -6 : 1 - diaSemana;
+  const ajusteDomingo = diaSemana === 0 ? 0 : 7 - diaSemana;
+
+  lunes.setDate(hoy.getDate() + ajusteLunes);
+  domingo.setDate(hoy.getDate() + ajusteDomingo);
+
+  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+  const diaInicio = lunes.getDate();
+  const diaFin = domingo.getDate();
+  const mesNombre = meses[lunes.getMonth()];
+
+  const texto = `Del ${diaInicio} al ${diaFin} de ${mesNombre}`;
+  document.getElementById("semana").value = texto;
+}
+
+window.onload = obtenerRangoSemana;
+
     function agregarCampos() {
       const contenedor = document.getElementById("diasContainer");
       contenedor.innerHTML = "";
