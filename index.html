@@ -80,7 +80,28 @@
       <button onclick="aplicarDescuento(16)">Aplicar 16%</button>
       <div class="resultado" id="resultado-descuento"></div>
     </section>
-
+    <section class="descuento">
+      <h2>Calculadora Porcientos</h2>
+      <input type="number" id="porcentaje-input" placeholder="Ingrese un valor">
+      <button onclick="calcularPorcentaje(4)">Calcular 4%</button>
+      <button onclick="calcularPorcentaje(5)">Calcular 5%</button>
+      <button onclick="calcularPorcentaje(7)">Calcular 7%</button>
+      <button onclick="calcularPorcentaje(40)">Calcular 40%</button>
+      <div class="resultado" id="resultado-porcentaje"></div>
+    </section>
+    
+    <script>
+      function calcularPorcentaje(porcentaje) {
+        const valor = parseFloat(document.getElementById("porcentaje-input").value);
+        if (isNaN(valor)) {
+          document.getElementById("resultado-porcentaje").innerText = "Ingrese un número válido.";
+          return;
+        }
+        const resultado = valor * (porcentaje / 100);
+        document.getElementById("resultado-porcentaje").innerText = `${porcentaje}% de ${valor} es: ${resultado.toFixed(2)}`;
+      }
+    </script>
+    
     <section id="tabla-clave" class="table-container">
       <h2>Tabla de Claves Interactiva</h2>
       <p>D=1, E=2, P=3, O=4, R=5, T=6, I=7, V=8, A=9, S=0</p>
